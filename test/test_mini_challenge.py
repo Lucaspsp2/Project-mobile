@@ -88,10 +88,10 @@ time.sleep(3)
 # Valida o Subtotal no carrinho
 VALOR_TOTAL_ESPERADO = "$59.98" # 2 x $29.99
 
-# 1. Encontra o elemento
+# Encontra o elemento
 elemento_total = driver.find_element(AppiumBy.ID, value= "com.saucelabs.mydemoapp.android:id/totalPriceTV")
 
-# 2. Captura o texto, remove espaços das bordas (strip) e remove QUALQUER ESPAÇO no meio (.replace)
+# Captura o texto, remove espaços das bordas (strip) e remove QUALQUER ESPAÇO no meio (.replace)
 # Isso garante que tanto ' $59.98 ' quanto '$ 59.98' sejam lidos como '$59.98'
 valor_total_compra_limpo = elemento_total.text.strip().replace(" ", "")
 
@@ -106,7 +106,7 @@ checkout_btn = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Confirms products
 checkout_btn.click()
 time.sleep(2)
 
-# 3.2. Validações de Erro na tela de Login
+# Validações de Erro na tela de Login
 titulo_login = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/loginTV")
 assert titulo_login.is_displayed(), "ERRO: A tela 'Login' não foi exibida."
 
@@ -123,11 +123,11 @@ assert erro_username.is_displayed(), "ERRO: Mensagem de 'Username obrigatório' 
 print("Validação de erro: Username vazio OK.")
 
 # --- TESTE DE ERRO 2: PASSWORD VAZIO (ISOLADO) ---
-# 1. Preenche apenas o Username
+# Preenche apenas o Username
 campo_usuario.send_keys("testuser") 
-# 2. Garante que o campo Senha está vazio (mesmo que estivesse)
+# Garante que o campo Senha está vazio (mesmo que estivesse)
 campo_senha.clear() 
-# 3. Clica para logar
+# Clica para logar
 botao_login.click()
 
 # Valida a mensagem de erro de senha
@@ -135,7 +135,7 @@ erro_password = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.androi
 assert erro_password.is_displayed(), "ERRO: Mensagem de 'Password obrigatória' não apareceu."
 print("Validação de erro: Password vazio (Username preenchido) OK.")
 
-# --- 3.3. Loga com credenciais CORRETAS ---
+# --- Logar com credenciais CORRETAS ---
 
 # Rola para cima e preenche os campos
 driver.execute_script('mobile: scrollGesture', {'left': 100, 'top': 1500, 'width': 800, 'height': 1500, 'direction': 'up', 'percent': 3.0})
@@ -156,9 +156,7 @@ time.sleep(3)
 print("Passo 3 OK: Login realizado com sucesso.")
 
 
-# --- 4. CHECKOUT FINAL E CONCLUSÃO ---
-
-# 4.1. Preenche Endereço (usamos o Scroll para ver o formulário todo)
+# Preenche Endereço (usamos o Scroll para ver o formulário todo)
 assert driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/checkoutTitleTV").is_displayed(), "ERRO: Não carregou a tela de Endereço."
 # O comando abaixo rola a tela para baixo
 driver.execute_script('mobile: scrollGesture', {'left': 100, 'top': 100, 'width': 800, 'height': 1500, 'direction': 'down', 'percent': 3.0})
@@ -174,7 +172,7 @@ driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/countryET")
 driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/paymentBtn").click()
 time.sleep(2)
 
-# 4.2. Preenche Pagamento
+#Preenche Pagamento
 driver.execute_script('mobile: scrollGesture', {'left': 100, 'top': 100, 'width': 800, 'height': 1500, 'direction': 'down', 'percent': 3.0})
 driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/nameET").send_keys(username)
 driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/cardNumberET").send_keys(cartao)
@@ -183,18 +181,17 @@ driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/securityCod
 driver.find_element(AppiumBy.ACCESSIBILITY_ID, "Saves payment info and launches screen to review checkout data").click()
 time.sleep(2)
 
-# 4.3. Valida e Finaliza Revisão
 
-# 1. Define o valor esperado (sem espaços para ser o padrão limpo)
+# Define o valor esperado (sem espaços para ser o padrão limpo)
 VALOR_FINAL_ESPERADO = "$65.97" # $59.98 (Subtotal) + $9.99 (Frete) ou 65.97
 
-# 2. Captura o elemento na tela (que contém o valor)
+# Captura o elemento na tela (que contém o valor)
 elemento_total_final = driver.find_element(AppiumBy.ID, "com.saucelabs.mydemoapp.android:id/totalAmountTV")
 
-# 3. Limpa o texto capturado: remove espaços das bordas e espaços no meio
+# Limpa o texto capturado: remove espaços das bordas e espaços no meio
 valor_final_na_tela_limpo = elemento_total_final.text.strip().replace(" ", "")
 
-# 4. Faz a validação: compara o valor limpo com o valor esperado (também limpo)
+# Faz a validação: compara o valor limpo com o valor esperado (também limpo)
 assert valor_final_na_tela_limpo == VALOR_FINAL_ESPERADO.replace(" ", ""), "ERRO: O Total Final está incorreto."
 print("Validação do Total Final (R$69.97) OK.")
 
