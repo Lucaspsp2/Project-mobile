@@ -1,0 +1,17 @@
+{
+  "android": {
+    "platformName": "Android",
+    "automationName": "UiAutomator2",
+    "deviceName": "Android Emulator",
+    "app": "/Users/lpsp/Downloads/mda-2.2.0-25.apk",
+    "noReset": true,
+    "fullReset": false
+  },
+  "ios": {
+    "platformName": "iOS",
+    "automationName": "XCUITest",
+    "deviceName": "iPhone Simulator",
+    "bundleId": "com.saucelabs.mydemoapp.ios"
+  }
+}
+
